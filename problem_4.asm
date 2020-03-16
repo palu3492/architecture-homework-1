@@ -24,26 +24,34 @@
 	addi $s1, $zero, 4 # b = 4
 	la $s2, D # put address of D into $s2
 	
-	# First loop
+	# Outer loop, for(i=0; i<a; i++)
 	addi $t0, $zero, 0 # i = 0
-	loop1:
-		bge $t0, $s0, exit # while i < a
+	outerloop:
+		bge $t0, $s0, exitouter # while i < a
 		
-		
-		addi $t0, $t0, 1 # i++
-		j loop1 # jump to top of loop
+		# Nested inner loop, for(j=0; j<b; j++)
+		addi $t1, $zero, 0 # j = 0
+		innerloop:
+			bge $t1, $s1, exitinner # while j < b
+			
+			# D[4*j] = i + j;
+			
+			add $v0, $t0, $t1 # $v0 = i + j
+			
+			mul $v1, $t1, 4 # $v1 = 4*j to used in D[4*j]
+			mul $v1, $v1, 4 # get byte address of index, (4*j) * 4
+			
+			sw $v0, D($v1) # D[4*j] = i + j
+			
+			addi $t1, $t1, 1 # j++
+			j innerloop  # jump to top of inner loop
+			
+		exitinner:
+			addi $t0, $t0, 1 # i++
+			j outerloop # jump to top of outer loop
 	
 	
-	# Inner loop
-	addi $t1, $zero, 0 # j = 0
-	loop2:
-		bge $t1, $s1, exit # while j < b
-		
-		addi $t1, $t1, 1 # j++
-		j loop1  # jump to top of loop
-	
-	
-	exit:
+	exitouter:
 	 	# exit syscall
 		li $v0, 10
 		syscall
