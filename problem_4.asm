@@ -1,6 +1,8 @@
 # CISC 340 - HW1
 .data
 	# store your initial values in the .data segment 
+	a: .word 3
+	b: .word 4
 	D: .space 80
 .text
 	#  load them to the register file appropriately
@@ -20,8 +22,8 @@
 	# j @ $t1
 	# $s2 = D[20]
 	
-	addi $s0, $zero, 3 # a = 3
-	addi $s1, $zero, 4 # b = 4
+	lw $s0, a($zero) # a = 3
+	lw $s1, b($zero) # b = 4
 	la $s2, D # put address of D into $s2
 	
 	# Outer loop, for(i=0; i<a; i++)

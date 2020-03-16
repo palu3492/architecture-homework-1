@@ -23,3 +23,7 @@
 	addi $t4, $zero, 15 # $t4 = 15
 	# Store 15 * (b + c) in $t0, which is a
 	mul $t0, $t4, $v0 # a = 15 * (b + c) = 75
+	
+	# Exit
+	li $v0, 10
+	syscall

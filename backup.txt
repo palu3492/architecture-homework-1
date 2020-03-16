@@ -1,0 +1,160 @@
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Problem Set/Assignment Template to be used by the
+%% Food and Resource Economics Department - IFAS
+%% University of Florida's graduates.
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Version 1.0 - November 2019
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Ariel Soto-Caro
+%%  - asotocaro@ufl.edu
+%%  - arielsotocaro@gmail.com
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[12pt]{article}
+\usepackage{design_ASC}
+
+\setlength\parindent{0pt} %% Do not touch this
+
+%% -----------------------------
+%% TITLE
+%% -----------------------------
+\title{Homework 1} %% Assignment Title
+
+\author{Alex Palumbo\\ %% Student name
+CISC 340 Computer Architecture\\ %% Code and course name
+}
+
+\date{\today} %% Change "\today" by another date manually
+%% -----------------------------
+%% -----------------------------
+
+%% %%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\setlength{\droptitle}{-5em}    
+%% %%%%%%%%%%%%%%%%%%%%%%%%%
+\maketitle
+
+% --------------------------
+% Start here
+% --------------------------
+
+% %%%%%%%%%%%%%%%%%%%
+\titleformat{\section}
+  {\normalfont\scshape}{\thesection}{1em}{}
+\section*{1}
+% %%%%%%%%%%%%%%%%%%%
+MIPS instructions that compute $a = b - (c – d)$
+\begin{lstlisting}[language=R]
+.data
+	a: .word 1
+	b: .word 2
+	c: .word 3
+	d: .word 4
+.text
+	lw $t0, a($zero)
+	lw $t1, b($zero)
+	lw $t2, c($zero)
+	lw $t3, d($zero)
+    # Problem 1 specific:
+	sub $v0, $t2, $t3
+	sub $t0, $t1, $v0
+\end{lstlisting}
+
+% %%%%%%%%%%%%%%%%%%%
+\subsection*{2}
+% %%%%%%%%%%%%%%%%%%%
+ Generate MIPS instructions that compute $a = 15 * (b+c)$
+\begin{lstlisting}[language=R]
+.data
+	a: .word 1
+	b: .word 2
+	c: .word 3
+	d: .word 4
+.text
+	lw $t0, a($zero)
+	lw $t1, b($zero)
+	lw $t2, c($zero)
+	lw $t3, d($zero)
+	# Problem 2 specific:
+	add $v0, $t1, $t2
+	addi $t4, $zero, 15
+	mul $t0, $t4, $v0
+\end{lstlisting}
+I couldn't find a way to multiply the expression without using the mul instruction. So I used the mul instruction to do the multiplication with three total instructions.
+
+% %%%%%%%%%%%%%%%%%%%
+\section*{3}
+% %%%%%%%%%%%%%%%%%%%
+MIPS instructions for provided code
+
+\begin{lstlisting}[language=R]
+.data
+	a: .word 1
+	b: .word 2
+	c: .word 3
+	d: .word 4
+	array: .space 40 # Problem 3 specific
+.text
+	lw $t0, a($zero)
+	lw $t1, b($zero)
+	lw $t2, c($zero)
+	lw $t3, d($zero)
+	# Problem 3 specific:
+	addi $t4, $zero, 10
+	addi $t5, $zero, 4
+	addi $t6, $zero, 1
+	while:
+		ble $t4, 0, exit
+		subi $t8, $t4, 1
+		mul $t7, $t5, $t8 
+		add $v0, $t4, $t1
+		sllv  $v1, $t6, $v0
+		sw $v1, array($t7)
+		subi $t4, $t4, 1
+		j while
+	exit:
+		li $v0, 10
+		syscall
+\end{lstlisting}
+
+% %%%%%%%%%%%%%%%%%%%
+\section*{4}
+% %%%%%%%%%%%%%%%%%%%
+MIPS instructions for C code from problem 2.27 in textbook
+
+\begin{lstlisting}[language=R]
+.data
+	a: .word 3
+	b: .word 4
+	D: .space 80
+.text
+	lw $s0, a($zero)
+	lw $s1, b($zero)
+	la $s2, D
+	
+	addi $t0, $zero, 0
+	outerloop:
+		bge $t0, $s0, exitouter
+
+		addi $t1, $zero, 0
+		innerloop:
+			bge $t1, $s1, exitinner
+			
+			add $v0, $t0, $t1
+			mul $v1, $t1, 4
+			mul $v1, $v1, 4
+			sw $v0, D($v1)
+			
+			addi $t1, $t1, 1
+			j innerloop
+			
+		exitinner:
+			addi $t0, $t0, 1
+			j outerloop
+	
+	exitouter:
+		li $v0, 10
+		syscall
+\end{lstlisting}
+
+\end{document}

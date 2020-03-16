@@ -20,3 +20,7 @@
 	sub $v0, $t2, $t3 # $v0 = c - d = -1
 	# Store b - (c - d) in $t0, which holds a
 	sub $t0, $t1, $v0 # a = b - (c - d) = 3
+	
+	# Exit
+	li $v0, 10
+	syscall
