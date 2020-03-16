@@ -12,11 +12,11 @@
 	lw $t2, c($zero) # $t2 = 3
 	lw $t3, d($zero) # $t3 = 4
 	
-	# Problem 1
-	# Generate MIPS instructions that compute a = b - (c – d)
-	# After execution: a = 3
-	
-	# Store c - d in register $v0
-	sub $v0, $t2, $t3 # $v0 = c - d = -1
-	# Store b - (c - d) in $t0, which holds a
-	sub $t0, $t1, $v0 # a = b - (c - d) = 3
+	# Problem 3
+	# Generate MIPS instructions that accomplish the following:
+	# int n = 10
+	# int A[10]
+	# while(n > 0){
+	#	A[n-1] = 1 << n + b
+	#	--n
+	# }
